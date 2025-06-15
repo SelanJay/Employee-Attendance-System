@@ -10,7 +10,8 @@ package model;
  */
 public class UserAttendance {
     private int userId;
-    private String username;
+    private String fullName;
+    private String role;
     private String department;
     private String month;
     private int totalDays;
@@ -31,8 +32,12 @@ public class UserAttendance {
         return userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getRole() {
+        return role;
     }
     
     public String getDepartment() {
@@ -59,8 +64,12 @@ public class UserAttendance {
         this.userId = userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     public void setDepartment(String department) {

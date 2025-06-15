@@ -4,6 +4,9 @@
     Author     : HP
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="model.UserAttendance"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,33 +42,50 @@
         </style>
     </head>
     <body>
+        <%!
 
+                public String getToday(){
+                    LocalDate today = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
+                    String formattedDate = today.format(formatter);
+                    return formattedDate;
+                }
+        %>
+        <%
+            UserAttendance userAtt = new UserAttendance();
+            userAtt = (UserAttendance) request.getAttribute("userAttribute");
+        %>
         <div class="letter-container">
             <div class="header">
                 <h2>University Malaysia Terengganu</h2>
                 <p>Human Resources Department</p>
             </div>
 
-            <p>Date: <strong>13 June 2025</strong></p>
+            <p>Date: <strong><%= getToday() %></strong></p>
 
             <p>To:<br>
-                <strong>Mr. John Doe</strong><br>
-                Employee ID: 987654<br>
-                Software Engineer<br>
-                XYZ Corporation</p>
+                <strong><%= userAtt.getFullName()%></strong><br>
+                Employee ID: <%= userAtt.getUserId()%><br>
+                <%= userAtt.getRole()%><br>
+                University Malaysia Terengganu</p>
 
             <p class="subject">Subject: Warning Letter for Low Attendance</p>
 
-            <p>Dear Mr. John Doe,</p>
+            <p>Dear Mr/Mrs. <%= userAtt.getFullName()%>,</p>
 
-            <p>This letter serves as a formal warning regarding your low attendance record at XYZ Corporation. We have observed that your attendance rate for the month of May 2025 was only <strong>72%</strong>, which is significantly below the company’s required minimum of <strong>90%</strong>.</p>
+            <p>This letter serves as a formal warning regarding your low attendance record at University Malaysia Terengganu. 
+                We have observed that your attendance rate for the month of <strong><%= userAtt.getMonth()%></strong> was only <strong><%= userAtt.getAttendancePercentage()%>%</strong>, 
+                which is significantly below the company’s required minimum of <strong>70%</strong>.</p>
 
-            <p>This level of attendance is unacceptable and has a direct impact on project timelines and team coordination. We emphasize the importance of consistent attendance as part of your responsibilities as a Software Engineer.</p>
+            <p>This level of attendance is unacceptable and has a direct impact on project timelines and team coordination. 
+                We emphasize the importance of consistent attendance as part of your responsibilities as a Software Engineer.</p>
 
-            <p>You are hereby advised to improve your attendance and comply with the company's attendance policies. Continued poor attendance may lead to further disciplinary action, including suspension or termination of employment.</p>
+            <p>You are hereby advised to improve your attendance and comply with the company's attendance policies. 
+                Continued poor attendance may lead to further disciplinary action, including suspension or termination of employment.</p>
 
-            <p>Kindly submit a written explanation for your low attendance and arrange a meeting with your immediate supervisor within the next 3 working days.</p>
+            <p>Kindly submit a written explanation for your low attendance and arrange a meeting with your immediate supervisor
+                within the next 3 working days.</p>
 
             <p>We trust you will treat this matter with the seriousness it deserves.</p>
 
@@ -73,7 +93,7 @@
 
             <div class="signature">
                 <p><strong>Human Resources Manager</strong><br>
-                    XYZ Corporation</p>
+                    University Malaysia Terengganu</p>
             </div>
 
             <div class="footer">

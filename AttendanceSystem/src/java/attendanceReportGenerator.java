@@ -5,10 +5,13 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.UserAttendance;
 
 /**
  *
@@ -28,8 +31,7 @@ public class attendanceReportGenerator extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -70,7 +72,20 @@ public class attendanceReportGenerator extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        UserAttendance userAtt = new UserAttendance();
+
+        userAtt.setUserId(Integer.parseInt(request.getParameter("userId")));
+        userAtt.setFullName(request.getParameter("userName"));
+        userAtt.setRole(request.getParameter("role"));
+        userAtt.setDepartment(request.getParameter("department"));
+        userAtt.setMonth(request.getParameter("month"));
+        userAtt.setAttendedDays(Integer.parseInt(request.getParameter("attendedDays")));
+        userAtt.setAttendancePercentage(Double.parseDouble(request.getParameter("attendancePercentage")));
+
+        request.setAttribute("userAttribute", userAtt);
+        
+        request.getRequestDispatcher("WarningLetter.jsp").forward(request, response);
     }
 
     /**

@@ -229,7 +229,8 @@ public class OvertimeDAO {
 
         String sql = "SELECT "
                 + "  a.userID, "
-                + "  u.username, " 
+                + "  u.fullName, " 
+                + "  u.role,"
                 + "  u.department, "
                 + "  DATE_FORMAT(a.date, '%Y-%m') AS month, "
                 + "  SUM(CASE WHEN a.status IN ('Present', 'Late') THEN 1 ELSE 0 END) AS attended_days, "
@@ -251,7 +252,8 @@ public class OvertimeDAO {
                 while (rs.next()) {
                     UserAttendance userAtt = new UserAttendance();
                     userAtt.setUserId(rs.getInt("userID"));
-                    userAtt.setUsername(rs.getString("username"));
+                    userAtt.setFullName(rs.getString("fullName"));
+                    userAtt.setRole(rs.getString("role"));
                     userAtt.setDepartment(rs.getString("department"));
                     userAtt.setMonth(rs.getString("month"));
                     userAtt.setAttendedDays(rs.getInt("attended_days"));
