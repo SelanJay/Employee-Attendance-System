@@ -43,7 +43,7 @@
 
         <div class="letter-container">
             <div class="header">
-                <h2>XYZ Corporation</h2>
+                <h2>University Malaysia Terengganu</h2>
                 <p>Human Resources Department</p>
             </div>
 

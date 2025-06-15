@@ -228,18 +228,18 @@ public class OvertimeDAO {
         String formattedMonth = String.format("%04d-%02d", year, month);
 
         String sql = "SELECT "
-            + "  a.userID, "
-            + "  u.department, "
-            + "  DATE_FORMAT(a.date, '%Y-%m') AS month, "
-            + "  wd.total_working_days, "
-            + "  SUM(CASE WHEN a.status IN ('Present', 'Late') THEN 1 ELSE 0 END) AS attended_days, "
-            + "  ROUND(SUM(CASE WHEN a.status IN ('Present', 'Late') THEN 1 ELSE 0 END) / wd.total_working_days * 100, 2) AS attendance_percentage "
-            + "FROM Attendance a "
-            + "JOIN Users u ON a.userID = u.userID "
-            + "JOIN working_days wd ON DATE_FORMAT(a.date, '%Y-%m') = wd.yearMonth "
-            + "WHERE DATE_FORMAT(a.date, '%Y-%m') = ? AND u.department = ? "
-            + "GROUP BY a.userID, u.department, wd.total_working_days "
-            + "ORDER BY a.userID;";
+                + "  a.userID, "
+                + "  u.username, " 
+                + "  u.department, "
+                + "  DATE_FORMAT(a.date, '%Y-%m') AS month, "
+                + "  SUM(CASE WHEN a.status IN ('Present', 'Late') THEN 1 ELSE 0 END) AS attended_days, "
+                + "  ROUND(SUM(CASE WHEN a.status IN ('Present', 'Late') THEN 1 ELSE 0 END) / wd.total_working_days * 100, 2) AS attendance_percentage "
+                + "FROM Attendance a "
+                + "JOIN Users u ON a.userID = u.userID "
+                + "JOIN working_days wd ON DATE_FORMAT(a.date, '%Y-%m') = wd.yearMonth "
+                + "WHERE DATE_FORMAT(a.date, '%Y-%m') = ? AND u.department = ? "
+                + "GROUP BY a.userID, u.department, wd.total_working_days "
+                + "ORDER BY a.userID;";
 
         try {
             Connection con = OvertimeDAO.getConnection();
@@ -249,15 +249,14 @@ public class OvertimeDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int userId = rs.getInt("userID");
-                    String department = rs.getString("department");
-                    String monthStr = rs.getString("month");
-                    int totalDays = rs.getInt("total_working_days");
-                    int attendedDays = rs.getInt("attended_days");
-                    double attendancePercentage = rs.getDouble("attendance_percentage");
-
-                    UserAttendance report = new UserAttendance(userId, department, monthStr, totalDays, attendedDays, attendancePercentage);
-                    reports.add(report);
+                    UserAttendance userAtt = new UserAttendance();
+                    userAtt.setUserId(rs.getInt("userID"));
+                    userAtt.setUsername(rs.getString("username"));
+                    userAtt.setDepartment(rs.getString("department"));
+                    userAtt.setMonth(rs.getString("month"));
+                    userAtt.setAttendedDays(rs.getInt("attended_days"));
+                    userAtt.setAttendancePercentage(rs.getDouble("attendance_percentage"));
+                    reports.add(userAtt);
                 }
             }
         } catch (SQLException e) {

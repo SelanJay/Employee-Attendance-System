@@ -10,25 +10,31 @@ package model;
  */
 public class UserAttendance {
     private int userId;
+    private String username;
     private String department;
     private String month;
     private int totalDays;
     private int attendedDays;
     private double attendancePercentage;
 
-    public UserAttendance(int userId, String department, String month, int totalDays, int attendedDays, double attendancePercentage) {
-        this.userId = userId;
-        this.department = department;
-        this.month = month;
-        this.totalDays = totalDays;
-        this.attendedDays = attendedDays;
-        this.attendancePercentage = attendancePercentage;
-    }
+//    public UserAttendance(int userId,String username, String department, String month, int totalDays, int attendedDays, double attendancePercentage) {
+//        this.userId = userId;
+//        this.username =  username;
+//        this.department = department;
+//        this.month = month;
+//        this.totalDays = totalDays;
+//        this.attendedDays = attendedDays;
+//        this.attendancePercentage = attendancePercentage;
+//    }
 
     public int getUserId() {
         return userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+    
     public String getDepartment() {
         return department;
     }
@@ -53,6 +59,10 @@ public class UserAttendance {
         this.userId = userId;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
     public void setDepartment(String department) {
         this.department = department;
     }

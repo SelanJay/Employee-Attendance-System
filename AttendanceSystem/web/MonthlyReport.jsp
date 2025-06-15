@@ -33,12 +33,13 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <td> User ID</td>
+                        <td> Employee ID</td>
+                        <td> Employee Name</td>
                         <td> Department </td>
                         <td> Year-Month</td>
-                        <td> Total Days</td>
                         <td> Attendance Day</td>
                         <td> Attendance Percentage</td>
+                        <td> Action</td>
                     </tr>
                 </thead>
                 <%
@@ -48,15 +49,19 @@
                     List<UserAttendance> list = OvertimeDAO.getMonthlyAttendanceReport(department, year, month);
 
                     for (UserAttendance e : list) {
+                    String warning = e.getAttendancePercentage() < 60 ? "table-danger " : "";
                 %>
 
-                <tr>
+                <tr class= "<%= warning%>">
                     <td><%= e.getUserId()%> </td>
+                    <td><%= e.getUsername()%> </td>
                     <td><%= e.getDepartment()%></td>
                     <td><%= e.getMonth()%> </td>
-                    <td><%= e.getTotalDays()%> </td>
                     <td><%= e.getAttendedDays()%> </td>
-                    <td><%= e.getAttendancePercentage()%> </td>
+                    <td><%= e.getAttendancePercentage()%>% </td>
+                    <% if( !warning.equals("")){%>
+                    <td><a class="btn btn-primary" href="attendanceReportGenerator?UserData=<%= e %>">Generate Report</a></td>
+                    <% }%>
                 </tr>
                 <% }%>
 
